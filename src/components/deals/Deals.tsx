@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Text, View } from 'react-native'
+import { Alert, Animated, Dimensions, Easing, Text, View } from 'react-native'
 import { ApiService } from '../../api'
 import { DealType } from '../../entities/Deal'
 import { styles } from './Deal.styles'
@@ -15,6 +15,26 @@ export const Deals: React.FC<DealsProps> = (props: DealsProps) => {
   const [deals, setDeals] = useState<Array<DealType>>([])
   const [dealsFromSearch, setDealsFromSearch] = useState([])
   const [currentDealId, setCurrentDealId] = useState('')
+
+  const [titleXPos, setTitleXPos] = useState(new Animated.Value(0))
+
+  const animateLoading = (direction = 1) => {
+    const { width } = Dimensions.get('window')
+
+    Animated.timing(titleXPos, {
+      toValue: direction * (width / 2 - 60),
+      useNativeDriver: false,
+      duration: 1000,
+      easing: Easing.linear,
+    }).start(({ finished }) => {
+      if (finished) {
+        animateLoading(-1 * direction)
+      }
+    })
+  }
+  useEffect(() => {
+    animateLoading()
+  }, [])
 
   useEffect(() => {
     ApiService.fetchInitialDeals().then(deals => {
@@ -51,7 +71,9 @@ export const Deals: React.FC<DealsProps> = (props: DealsProps) => {
       <Text style={styles.title}>Deals</Text>
 
       {dealsToDisplay.length === 0 ? (
-        <Text style={styles.noDeals}>No deals available</Text>
+        <Animated.View style={[styles.dealContainer, { left: titleXPos }]}>
+          <Text style={styles.noDeals}>No deals available</Text>
+        </Animated.View>
       ) : (
         <View style={styles.main}>
           <SearchBar searchDeals={searchDeals} />
