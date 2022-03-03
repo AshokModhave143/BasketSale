@@ -20,4 +20,13 @@ export const ApiService = {
       console.error(err)
     }
   },
+  async fetchDealsSearchResults(searchTerm: string) {
+    try {
+      const response = await fetch(apiURL + '/api/deals?searchTerm=' + searchTerm)
+      const responseJson = await response.json()
+      return responseJson
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }
