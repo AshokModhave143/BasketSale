@@ -60,6 +60,9 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  dealDetailsContainer: {
+    marginVertical: 8,
+  },
   subtitleDetails: {
     justifyContent: 'center',
     alignItems: 'center',

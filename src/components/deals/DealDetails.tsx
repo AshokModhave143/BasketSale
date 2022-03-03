@@ -30,7 +30,7 @@ export const DealDetails: React.FC<DealDetailsProps> = (props: DealDetailsProps)
       <TouchableOpacity style={styles.backBtn} onPress={props.onReturnPress}>
         <Text style={styles.backBtnText}>{`<<  Back`}</Text>
       </TouchableOpacity>
-      <View style={styles.dealItemContainer}>
+      <View style={styles.dealDetailsContainer}>
         <Image source={{ uri: initialDealData.media[0] }} style={styles.image} />
         <Text style={styles.dealTitle}>{initialDealData.title}</Text>
         <View style={styles.dealSubtitle}>
