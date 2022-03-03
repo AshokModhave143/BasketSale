@@ -7,25 +7,22 @@
  */
 
 import React from 'react'
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native'
+import { SafeAreaView, Text, View } from 'react-native'
 import { styles } from './App.styles'
+import { Deals } from './components/deals'
 
-function App() {
+const App = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View style={styles.content}>
-          <Text>Welcome to BakeSale app!</Text>
-        </View>
-      </ScrollView>
+      {/* <ScrollView contentInsetAdjustmentBehavior="automatic" nestedScrollEnabled={true}> */}
+
+      <View style={styles.header}>
+        <Text style={styles.brand}>BakeSale</Text>
+      </View>
+      <View style={styles.content}>
+        <Deals />
+      </View>
+      {/* </ScrollView> */}
     </SafeAreaView>
   )
 }
