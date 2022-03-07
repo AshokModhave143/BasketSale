@@ -10,6 +10,7 @@ import {
   Animated,
   Dimensions,
   Linking,
+  ScrollView,
 } from 'react-native'
 import { ApiService } from '../../api'
 import { DealType, FullDealType } from '../../entities/Deal'
@@ -90,13 +91,13 @@ export const DealDetails: React.FC<DealDetailsProps> = (props: DealDetailsProps)
       <TouchableOpacity style={styles.backBtn} onPress={props.onReturnPress}>
         <Text style={styles.backBtnText}>{`<<  Back`}</Text>
       </TouchableOpacity>
-      <View style={styles.dealDetailsContainer}>
-        <Animated.Image
-          source={{ uri: initialDealData.media[imageIndex] }}
-          style={[{ left: imageXPos }, styles.image]}
-          {...imageResponder.panHandlers}
-        />
-        <Text style={styles.dealTitle}>{initialDealData.title}</Text>
+      <Animated.Image
+        source={{ uri: initialDealData.media[imageIndex] }}
+        style={[{ left: imageXPos }, styles.image]}
+        {...imageResponder.panHandlers}
+      />
+      <Text style={styles.dealTitle}>{initialDealData.title}</Text>
+      <ScrollView style={styles.dealDetailsContainer}>
         <View style={styles.dealSubtitle}>
           <View style={styles.subtitleDetails}>
             <Text style={[styles.subTitleText, styles.price]}>
@@ -115,7 +116,7 @@ export const DealDetails: React.FC<DealDetailsProps> = (props: DealDetailsProps)
         <View style={styles.buyBtn}>
           <Button title="Buy this deal" onPress={openDealUrl} color="orange" />
         </View>
-      </View>
+      </ScrollView>
     </View>
   )
 }

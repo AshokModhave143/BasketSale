@@ -15,6 +15,7 @@ export const Deals: React.FC<DealsProps> = (props: DealsProps) => {
   const [deals, setDeals] = useState<Array<DealType>>([])
   const [dealsFromSearch, setDealsFromSearch] = useState([])
   const [currentDealId, setCurrentDealId] = useState('')
+  const [activeSearchTerm, setActiveSearchTerm] = useState('')
 
   const [titleXPos, setTitleXPos] = useState(new Animated.Value(0))
 
@@ -57,6 +58,7 @@ export const Deals: React.FC<DealsProps> = (props: DealsProps) => {
       searchedDeals = await ApiService.fetchDealsSearchResults(searchTerm)
     }
     setDealsFromSearch(searchedDeals)
+    setActiveSearchTerm(searchTerm)
   }
 
   if (currentDealId.length != 0) {
@@ -76,7 +78,7 @@ export const Deals: React.FC<DealsProps> = (props: DealsProps) => {
         </Animated.View>
       ) : (
         <View style={styles.main}>
-          <SearchBar searchDeals={searchDeals} />
+          <SearchBar searchDeals={searchDeals} initialSearchTerm={activeSearchTerm} />
           <DealList deals={dealsToDisplay} onItemPress={setCurrentDeal} />
         </View>
       )}

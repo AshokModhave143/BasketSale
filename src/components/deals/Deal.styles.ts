@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   dealDetailsContainer: {
-    marginVertical: 8,
+    marginTop: 8,
   },
   subtitleDetails: {
     justifyContent: 'center',
@@ -98,6 +98,7 @@ export const styles = StyleSheet.create({
   backBtn: {
     marginHorizontal: 10,
     width: 80,
+    marginBottom: 10,
   },
   backBtnText: {
     fontSize: 14,
