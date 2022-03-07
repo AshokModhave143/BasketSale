@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, Text, Button, Alert, TouchableOpacity } from 'react-native'
+import {
+  View,
+  Image,
+  Text,
+  Button,
+  Alert,
+  TouchableOpacity,
+  PanResponder,
+  Animated,
+  Dimensions,
+} from 'react-native'
 import { ApiService } from '../../api'
 import { DealType, FullDealType } from '../../entities/Deal'
 import { priceDisplay } from '../../utils/currency'
@@ -12,6 +22,27 @@ export type DealDetailsProps = {
 export const DealDetails: React.FC<DealDetailsProps> = (props: DealDetailsProps) => {
   const { initialDealData } = props
   const [deal, setFullDeal] = useState<FullDealType>(initialDealData as FullDealType)
+  const [imageIndex, setImageIndex] = useState(0)
+  const imageXPos = new Animated.Value(0)
+
+  const imageResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderMove: (evt, gs) => {
+      imageXPos.setValue(gs.dx)
+    },
+    onPanResponderRelease: (evt, gs) => {
+      const { width } = Dimensions.get('window')
+      if (gs.dx < -1 * width * 0.4) {
+        Animated.timing(imageXPos, {
+          toValue: -1 * width,
+          duration: 250,
+          useNativeDriver: false,
+        }).start()
+      } else {
+        imageXPos.setValue(0)
+      }
+    },
+  })
 
   useEffect(() => {
     ApiService.fetchDealDetail(props.initialDealData.key).then(details => {
@@ -31,7 +62,11 @@ export const DealDetails: React.FC<DealDetailsProps> = (props: DealDetailsProps)
         <Text style={styles.backBtnText}>{`<<  Back`}</Text>
       </TouchableOpacity>
       <View style={styles.dealDetailsContainer}>
-        <Image source={{ uri: initialDealData.media[0] }} style={styles.image} />
+        <Animated.Image
+          source={{ uri: initialDealData.media[imageIndex] }}
+          style={[{ left: imageXPos }, styles.image]}
+          {...imageResponder.panHandlers}
+        />
         <Text style={styles.dealTitle}>{initialDealData.title}</Text>
         <View style={styles.dealSubtitle}>
           <View style={styles.subtitleDetails}>
