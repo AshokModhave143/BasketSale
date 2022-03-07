@@ -9,6 +9,7 @@ import {
   PanResponder,
   Animated,
   Dimensions,
+  Linking,
 } from 'react-native'
 import { ApiService } from '../../api'
 import { DealType, FullDealType } from '../../entities/Deal'
@@ -25,30 +26,58 @@ export const DealDetails: React.FC<DealDetailsProps> = (props: DealDetailsProps)
   const [imageIndex, setImageIndex] = useState(0)
   const imageXPos = new Animated.Value(0)
 
+  const { width } = Dimensions.get('window')
+
   const imageResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderMove: (evt, gs) => {
       imageXPos.setValue(gs.dx)
     },
+
     onPanResponderRelease: (evt, gs) => {
-      const { width } = Dimensions.get('window')
-      if (gs.dx < -1 * width * 0.4) {
+      if (Math.abs(gs.dx) > width * 0.4) {
+        const direction = Math.sign(gs.dx)
+        // -1 = left, +1 = right
         Animated.timing(imageXPos, {
-          toValue: -1 * width,
+          toValue: direction * width,
           duration: 250,
           useNativeDriver: false,
-        }).start()
+        }).start(() => handleImageSwipe(-1 * direction))
       } else {
         imageXPos.setValue(0)
       }
     },
   })
+  useEffect(() => {
+    imageXPos.setValue(width)
+
+    Animated.spring(imageXPos, {
+      toValue: 0,
+      useNativeDriver: false,
+    }).start()
+  }, [imageIndex])
+
+  const handleImageSwipe = (indexDirection: number) => {
+    if (!deal.media[imageIndex + indexDirection]) {
+      Animated.spring(imageXPos, {
+        toValue: 0,
+        useNativeDriver: false,
+      }).start()
+      return
+    }
+    setImageIndex(prev => prev + indexDirection)
+  }
 
   useEffect(() => {
     ApiService.fetchDealDetail(props.initialDealData.key).then(details => {
       setFullDeal(details)
     })
   }, [])
+
+  const openDealUrl = () => {
+    Linking.openURL(deal.url)
+  }
+
   if (!deal) {
     return (
       <View>
@@ -83,6 +112,9 @@ export const DealDetails: React.FC<DealDetailsProps> = (props: DealDetailsProps)
           )}
         </View>
         <Text style={styles.description}>{deal.description}</Text>
+        <View style={styles.buyBtn}>
+          <Button title="Buy this deal" onPress={openDealUrl} color="orange" />
+        </View>
       </View>
     </View>
   )

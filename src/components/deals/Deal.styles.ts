@@ -106,4 +106,10 @@ export const styles = StyleSheet.create({
     color: 'blue',
     textDecorationLine: 'underline',
   },
+  buyBtn: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    flexDirection: 'row',
+  },
 })
