@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, Animated, Dimensions, Easing, Text, View } from 'react-native'
+import analytics from '@react-native-firebase/analytics'
 import { ApiService } from '../../api'
 import { DealType } from '../../entities/Deal'
 import { styles } from './Deal.styles'
@@ -43,8 +44,11 @@ export const Deals: React.FC<DealsProps> = (props: DealsProps) => {
     })
   }, [])
 
-  const setCurrentDeal = (dealId: string) => {
+  const setCurrentDeal = async (dealId: string) => {
     setCurrentDealId(dealId)
+    await analytics().logEvent('dealDetail', {
+      deal_id: dealId,
+    })
   }
 
   const currentDeal = (key: string) => {

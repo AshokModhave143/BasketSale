@@ -12,6 +12,7 @@ import {
   Linking,
   ScrollView,
 } from 'react-native'
+import analytics from '@react-native-firebase/analytics'
 import { ApiService } from '../../api'
 import { DealType, FullDealType } from '../../entities/Deal'
 import { priceDisplay } from '../../utils/currency'
@@ -75,7 +76,11 @@ export const DealDetails: React.FC<DealDetailsProps> = (props: DealDetailsProps)
     })
   }, [])
 
-  const openDealUrl = () => {
+  const openDealUrl = async () => {
+    await analytics().logEvent('dealToBuy', {
+      deal_id: deal.key,
+      deal_title: deal.title,
+    })
     Linking.openURL(deal.url)
   }
 
