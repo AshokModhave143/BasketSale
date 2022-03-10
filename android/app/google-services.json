@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "468939637718",
+    "project_id": "basketsale-e40f1",
+    "storage_bucket": "basketsale-e40f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468939637718:android:803b882bc807fdf4055a77",
+        "android_client_info": {
+          "package_name": "com.basketsale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468939637718-uo9bghrgkck7u142aaigl1ob35v0rt2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClfuPWQxCiCqj94qTk0M78E19nKUgvXHY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468939637718-uo9bghrgkck7u142aaigl1ob35v0rt2v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
